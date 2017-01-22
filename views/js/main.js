@@ -500,11 +500,23 @@ function logAverageFrame(times) {   // times is the array of User Timing measure
 function updatePositions() {
   frame++;
   window.performance.mark("mark_start_frame");
+  // Change from querySlectorAll to getElementsByClassName
+  var items = document.getElementsByClassName('mover');
+  // Take "scrollTop" out of the loop; gives the same number all the time
+  var scrollTop = document.body.scrollTop/1250;
 
-  var items = document.querySelectorAll('.mover');
-  for (var i = 0; i < items.length; i++) {
-    var phase = Math.sin((document.body.scrollTop / 1250) + (i % 5));
-    items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
+  //set up a phase array to avoid calculating phase at each step
+  // Calculate phases in it's own loop fixes forced reflux problem
+  //Phase defines intervals along which the pizza may move.
+  //There are 5 possible phases, see Sine Wave.
+  var phases = [];
+  for (var i = 0; i < 5; i++) {
+    phases[i] = Math.sin((scrollTop) + i);
+  }
+  // Change from style.left to style.transform
+  for (var i = 0; i < items.length; i ++){
+    var dimension = items[i].basicLeft + 100 * phases[i % 5] -1024 + 'px';
+    items[i].style.transform = 'translateX('+ dimension +')';
   }
 
   // User Timing API to the rescue again. Seriously, it's worth learning.
@@ -524,15 +536,19 @@ window.addEventListener('scroll', updatePositions);
 document.addEventListener('DOMContentLoaded', function() {
   var cols = 8;
   var s = 256;
-  for (var i = 0; i < 200; i++) {
+  var numOfPizza = 36; 
+  // this for loop created 200 pizzas which were totally unnecessary.
+  // I calculated the # of pizzas on the screen and limited the loop.
+  for (var i = 0; i < numOfPizza; i++) {
     var elem = document.createElement('img');
     elem.className = 'mover';
-    elem.src = "images/pizza.png";
+    elem.src = "images/pizza11.png";
     elem.style.height = "100px";
     elem.style.width = "73.333px";
     elem.basicLeft = (i % cols) * s;
     elem.style.top = (Math.floor(i / cols) * s) + 'px';
     document.querySelector("#movingPizzas1").appendChild(elem);
   }
+  // window.items = document.getElementByClassName("mover");
   updatePositions();
 });
