@@ -424,35 +424,39 @@ var resizePizzas = function(size) {
    // Returns the size difference to change a pizza element from one size to another. Called by changePizzaSlices(size).
   function determineDx (elem, size) {
     var oldWidth = elem.offsetWidth;
-    var windowWidth = document.querySelector("#randomPizzas").offsetWidth;
+    var windowWidth = document.getElementById("randomPizzas").offsetWidth;
     var oldSize = oldWidth / windowWidth;
-
-    // Changes the slider value to a percent width
-    function sizeSwitcher (size) {
-      switch(size) {
-        case "1":
-          return 0.25;
-        case "2":
-          return 0.3333;
-        case "3":
-          return 0.5;
-        default:
-          console.log("bug in sizeSwitcher");
-      }
-    }
-
-    var newSize = sizeSwitcher(size);
     var dx = (newSize - oldSize) * windowWidth;
 
     return dx;
   }
 
   // Iterates through pizza elements on the page and changes their widths
+  //Store randomPizzaContainer in a global var, save from looking up each iteration of the loop
+  var pizzaSizeChange = document.getElementsByClassName("randomPizzaContainer");
+  var pizzaChangeLength = pizzaSizeChange.length;
   function changePizzaSizes(size) {
-    for (var i = 0; i < document.querySelectorAll(".randomPizzaContainer").length; i++) {
-      var dx = determineDx(document.querySelectorAll(".randomPizzaContainer")[i], size);
-      var newwidth = (document.querySelectorAll(".randomPizzaContainer")[i].offsetWidth + dx) + 'px';
-      document.querySelectorAll(".randomPizzaContainer")[i].style.width = newwidth;
+    //define variable used to update values for pizza slider
+    var changedWidth;
+
+    //check each case for the slider and return the assigned changedWidth value
+    switch(size) {
+      case "1":
+        changedWidth = 25;
+        break;
+      case "2":
+        changedWidth = 33.3;
+        break;
+      case "3":
+        changedWidth = 50;
+        break;
+      default:
+        console.log("bug in sizeSwitcher");
+    }
+    //loop over each item in randomPizzaContainer and update its style.width property to a %
+    for (var i = 0; i < pizzaChangeLength; i++) {
+    pizzaSizeChange[i].style.width = changedWidth + '%';
+
     }
   }
 
@@ -467,9 +471,10 @@ var resizePizzas = function(size) {
 
 window.performance.mark("mark_start_generating"); // collect timing data
 
-// This for-loop actually creates and appends all of the pizzas when the page loads
+// This for-loop creates and appends all pizzas.
+//Optimization: Moved pizzaDiv declaration out of  loop.
+var pizzasDiv = document.getElementById("randomPizzas");
 for (var i = 2; i < 100; i++) {
-  var pizzasDiv = document.getElementById("randomPizzas");
   pizzasDiv.appendChild(pizzaElementGenerator(i));
 }
 
@@ -536,7 +541,7 @@ window.addEventListener('scroll', updatePositions);
 document.addEventListener('DOMContentLoaded', function() {
   var cols = 8;
   var s = 256;
-  var numOfPizza = 36; 
+  var numOfPizza = 36;
   // this for loop created 200 pizzas which were totally unnecessary.
   // I calculated the # of pizzas on the screen and limited the loop.
   for (var i = 0; i < numOfPizza; i++) {
@@ -547,7 +552,7 @@ document.addEventListener('DOMContentLoaded', function() {
     elem.style.width = "73.333px";
     elem.basicLeft = (i % cols) * s;
     elem.style.top = (Math.floor(i / cols) * s) + 'px';
-    document.querySelector("#movingPizzas1").appendChild(elem);
+    document.getElementById("movingPizzas1").appendChild(elem);
   }
   // window.items = document.getElementByClassName("mover");
   updatePositions();
