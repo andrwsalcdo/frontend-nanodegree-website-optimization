@@ -423,18 +423,16 @@ var resizePizzas = function(size) {
 
   changeSliderLabel(size);
 
-   // Returns the size difference to change a pizza element from one size to another. Called by changePizzaSlices(size).
-  function determineDx (elem, size) {
-    var oldWidth = elem.offsetWidth;
-    var windowWidth = document.getElementById("randomPizzas").offsetWidth;
-    var oldSize = oldWidth / windowWidth;
-    var dx = (newSize - oldSize) * windowWidth;
 
-    return dx;
-  }
-
-  // Iterates through pizza elements on the page and changes their widths
-  //Store randomPizzaContainer in a global var, save from looking up each iteration of the loop
+  /**
+      * @desc iterates through pizza elements & changes their widths
+      * @param size
+      * @return update style.width % of pizza element
+      * Optimzations:
+          var pizzaSizeChange out of for-loop.
+          for-loop: iterate over pizzaSizeChange & update style.width to a %
+          delete helper function determineDx(elem,size)
+  */
   var pizzaSizeChange = document.getElementsByClassName("randomPizzaContainer");
   var pizzaChangeLength = pizzaSizeChange.length;
   function changePizzaSizes(size) {
@@ -455,10 +453,9 @@ var resizePizzas = function(size) {
       default:
         console.log("bug in sizeSwitcher");
     }
-    //loop over each item in randomPizzaContainer and update its style.width property to a %
+
     for (var i = 0; i < pizzaChangeLength; i++) {
     pizzaSizeChange[i].style.width = changedWidth + '%';
-
     }
   }
 
@@ -473,8 +470,12 @@ var resizePizzas = function(size) {
 
 window.performance.mark("mark_start_generating"); // collect timing data
 
-// This for-loop creates and appends all pizzas.
-//Optimization: Moved pizzaDiv declaration out of  loop.
+
+/**
+    * @desc for-loop creates & appends all pizzas
+    * Optimizations:
+        moved var PizzasDiv out of loop.
+*/
 var pizzasDiv = document.getElementById("randomPizzas");
 for (var i = 2; i < 100; i++) {
   pizzasDiv.appendChild(pizzaElementGenerator(i));
@@ -503,21 +504,28 @@ function logAverageFrame(times) {   // times is the array of User Timing measure
 // The following code for sliding background pizzas was pulled from Ilya's demo found at:
 // https://www.igvita.com/slides/2012/devtools-tips-and-tricks/jank-demo.html
 
-// Moves the sliding background pizzas based on scroll position
+
+/**
+    @desc moves the sliding background pizzas based on scroll position
+    Optimizations:
+      querySlectorAll to getElementsByClassName,
+      var scrollTop & items out of loop.
+      caclulate phases as array in for-loop fixes forced reflux problem.
+      items[i].style.transform
+      translateX: translation animation on x-axis
+*/
 function updatePositions() {
   frame++;
   window.performance.mark("mark_start_frame");
-  // Change from querySlectorAll to getElementsByClassName
-  var items = document.getElementsByClassName('mover');
-  // Take "scrollTop" out of the loop; gives the same number all the time
-  var scrollTop = document.body.scrollTop/1250;
 
-  // Calculate phases in it's own loop fixes forced reflux problem
+  var items = document.getElementsByClassName('mover');
+  var scrollTop = document.body.scrollTop/1250; //integer of px scrolling
+
   var phases = [];
   for (var i = 0; i < 5; i++) {
     phases[i] = Math.sin((scrollTop) + i);
   }
-  // Change from style.left to style.transform
+
   for (var i = 0; i < items.length; i ++){
     var dimension = items[i].basicLeft + 100 * phases[i % 5] -1024 + 'px';
     items[i].style.transform = 'translateX('+ dimension +')';
@@ -536,14 +544,20 @@ function updatePositions() {
 // runs updatePositions on scroll
 window.addEventListener('scroll', updatePositions);
 
-// Generates the sliding pizzas when the page loads.
+
+/**
+    @desc generates the sliding pizzas when the page loads
+    Optimizations:
+      var movingPizzas out of for-loop
+      calcultate var numOfPizza.  i < 200 was unnecessary
+      declare var elem in for-loop.
+*/
 document.addEventListener('DOMContentLoaded', function() {
   var cols = 8;
   var s = 256;
-  var movingPizzas = document.getElementById('movingPizzas1'); //optimizing DOM call by placing it outside the for-loop
+  var movingPizzas = document.getElementById('movingPizzas1');
   var numOfPizza = 36;
-  // this for loop created 200 pizzas which were totally unnecessary.
-  // I calculated the # of pizzas on the screen and limited the loop.
+
   for (var i = 0, elem; i < numOfPizza; i++) {
     elem = document.createElement('img');
     elem.className = 'mover';
@@ -554,6 +568,5 @@ document.addEventListener('DOMContentLoaded', function() {
     elem.style.top = (Math.floor(i / cols) * s) + 'px';
     movingPizzas.appendChild(elem);
   }
-  // window.items = document.getElementByClassName("mover");
   updatePositions();
 });

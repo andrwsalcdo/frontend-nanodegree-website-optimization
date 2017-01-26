@@ -15,14 +15,14 @@ You can check the performance Optimizations made on this project by comparing th
 
 ## Optimizations to index.html:
 
-* minify stylesheets
-* inline critical CSS
+* Minify stylesheets
+* Inline critical CSS
 * Add print media query to print.css & inline
-* inline media query
-* load javascript asynchronously
-* load js/perfmatter.js using defer attribute
-* optimize images via [GIMP 2](https://www.gimp.org/downloads/)
-* defer webfont loading
+* Inline media query
+* Load Javascript asynchronously
+* Load js/perfmatter.js using defer attribute
+* Optimize images via [GIMP 2](https://www.gimp.org/downloads/)
+* Defer webfont loading
 
 ## Optimizations to pizza main.js:
 
@@ -30,6 +30,7 @@ You can check the performance Optimizations made on this project by comparing th
 * `Use Strict;`
 * Change querySelectorAll to getElementsByClassName
 * Change querySelector to getElementsById
+* Delete helper function determineDx
 * In `updatePositions`, move line `var scrolltop = document.body.scrollTop / 1250;` & `var items = document.getElementsByClassName('mover');` outside of the for loop to avoid triggering forced synchronous layouts.
 * Precalculate the 5 different values of phase before the for-loop in `updatePositions`.
 * Use CSS `translateX` to achieve pizza animation
