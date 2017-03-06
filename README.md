@@ -11,7 +11,7 @@ Getting Rid of Jank
 
 ##Run this project
 
-You can check the performance Optimizations made on this project by comparing the [optimized version](https://asalcedo07.github.io/frontend-nanodegree-website-optimization/) with the original version in the Source directory of this repository or hosted [here](https://github.com/udacity/frontend-nanodegree-mobile-portfolio).You can explore the differences using Chrome DevTools.
+You can check the performance Optimizations made on this project by comparing the [optimized version](https://andrwsalcdo.github.io/frontend-nanodegree-website-optimization/) with the original version in the Source directory of this repository hosted [here](https://github.com/udacity/frontend-nanodegree-mobile-portfolio).You can explore the differences using Chrome DevTools.
 
 ## Optimizations to index.html:
 
