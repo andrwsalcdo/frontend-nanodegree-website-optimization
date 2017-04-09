@@ -1,17 +1,23 @@
-# Website Performance Optimization portfolio project
+# Website Performance Optimization
+
+## Overview
+Optimize the critical rendering path and make a given page render as quickly as possible.
 
 PageSpeed Score
-
 * index.html achieves a PageSpeed score of at least 90 for Mobile and Desktop.
 
 Getting Rid of Jank
-
 * Optimizations made to views/js/main.js make views/pizza.html render with a consistent frame-rate at 60fps when scrolling.
 * Time to resize pizzas is less than 5 ms using the pizza size slider on the views/pizza.html page.
 
-##Run this project
+Project was evaluated by a Udacity reviewer according to this [rubric](https://review.udacity.com/#!/rubrics/16/view)
 
-You can check the performance Optimizations made on this project by comparing the [optimized version](https://asalcedo07.github.io/frontend-nanodegree-website-optimization/) with the original version in the Source directory of this repository or hosted [here](https://github.com/udacity/frontend-nanodegree-mobile-portfolio).You can explore the differences using Chrome DevTools.
+## Run this project
+
+- Clone or download the ZIP
+- Open index.html in Production directory to see [optimized version](https://asalcedo07.github.io/frontend-nanodegree-website-optimization/)
+- Open index.html in Source directory to see [original version](https://github.com/udacity/frontend-nanodegree-mobile-portfolio)
+    - Examine the original unoptimized version provided by [Udacity](https://github.com/udacity/frontend-nanodegree-mobile-portfolio)
 
 ## Optimizations to index.html:
 
